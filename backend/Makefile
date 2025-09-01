@@ -30,10 +30,20 @@ install:
 install-dev:
 	@pip install -r requirements-dev.txt
 
+#* Alembic current
+.PHONY: alembic-current
+alembic-current:
+	@alembic current
+
 #* Migration-run
 .PHONY: migration-run
 migration-run:
 	@alembic upgrade head
+
+#* Migration-downgrade
+.PHONY: migration-downgrade
+migration-downgrade:
+	@alembic downgrade -1
 
 #* Migration-create
 .PHONY: migration-create

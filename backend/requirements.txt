@@ -7,3 +7,5 @@ dependency-injector==4.48.1
 easydict==1.13
 alembic==1.16.5
 asyncpg==0.30.0
+python-dotenv==1.1.1
+psycopg2-binary==2.9.10
