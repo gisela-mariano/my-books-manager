@@ -26,8 +26,8 @@ users = Table(
     ),
     Column(name="name", type_=String(length=255), nullable=False),
     Column(name="lastname", type_=String(length=255), nullable=False),
-    Column(name="username", type_=String(length=255), nullable=False),
-    Column(name="email", type_=String(length=60), nullable=False),
+    Column(name="username", type_=String(length=255), nullable=False, unique=True),
+    Column(name="email", type_=String(length=60), nullable=False, unique=True),
     Column(name="password", type_=String(length=255), nullable=False),
     Column(name="is_active", type_=Boolean, nullable=False, default=True),
     Column(
