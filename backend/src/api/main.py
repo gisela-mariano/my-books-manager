@@ -2,10 +2,19 @@ import os
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
+from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from src.api.v1.router import routes as api_v1_routes
 from src.core.di.containers import Container
 from src.core.enums.database import DatabaseType
+from src.core.middlewares.response_middleware import ResponseMiddleware
+from src.core.utils.exceptions.base_exception import BaseException
+from src.core.utils.exceptions.handlers import (
+    base_exception_handler,
+    http_exception_handler,
+    http_validation_exception_handler,
+)
+from starlette.exceptions import HTTPException as StarletteHTTPException
 
 # DI-1: Inicia o container
 container = Container()
@@ -48,10 +57,12 @@ app = FastAPI(lifespan=lifespan)
 app.include_router(api_v1_routes)
 
 # Exception Handlers
-# TODO: Criar BaseException
-# app.add_exception_handler(BaseException, base_exception_handler)
+app.add_exception_handler(RequestValidationError, http_validation_exception_handler)
+app.add_exception_handler(StarletteHTTPException, http_exception_handler)
+app.add_exception_handler(BaseException, base_exception_handler)
 
 # Middlewares
+app.add_middleware(ResponseMiddleware)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
