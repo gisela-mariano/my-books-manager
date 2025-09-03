@@ -6,6 +6,7 @@ from src.core.middlewares.models.error import Error
 from src.core.middlewares.models.response import Response
 from starlette.status import (
     HTTP_400_BAD_REQUEST,
+    HTTP_403_FORBIDDEN,
     HTTP_404_NOT_FOUND,
     HTTP_500_INTERNAL_SERVER_ERROR,
 )
@@ -14,7 +15,6 @@ from starlette.status import (
 class BaseErrorResponse(JSONResponse, ABC):
     _status_code: str
     _default_message: str
-    _code: str
 
     def __init__(self, exception: Exception) -> None:
         content_formatted = self.format_content(exception)
@@ -30,7 +30,7 @@ class BaseErrorResponse(JSONResponse, ABC):
                 message=error.message or error.default_message,
                 error=error,
                 status=ResponseStatus.FAILED,
-                metadata=error.metadata,
+                # metadata=error.metadata,
             )
         ).model_dump()
 
@@ -38,7 +38,6 @@ class BaseErrorResponse(JSONResponse, ABC):
 class InternalErrorResponse(BaseErrorResponse):
     _status_code = HTTP_500_INTERNAL_SERVER_ERROR
     _default_message = "Unexpected error"
-    _code = 1
 
 
 class ValidationErrorResponse(BaseErrorResponse):
@@ -47,3 +46,7 @@ class ValidationErrorResponse(BaseErrorResponse):
 
 class RouteNotFoundErrorResponse(BaseErrorResponse):
     _status_code = HTTP_404_NOT_FOUND
+
+
+class AuthUnauthorizedErrorResponse(BaseErrorResponse):
+    _status_code = HTTP_403_FORBIDDEN

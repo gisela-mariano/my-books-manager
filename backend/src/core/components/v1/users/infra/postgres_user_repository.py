@@ -1,3 +1,4 @@
+from sqlalchemy import select
 from src.core.components.v1.users.domain.user_repository import UserRepository
 from src.core.components.v1.users.infra.models.user import users
 from src.core.components.v1.users.infra.schemas.user import (
@@ -38,7 +39,13 @@ class PostgresUserRepository(PostgresBaseRepository, UserRepository):
 
     async def get_by_id(self, id: str) -> dict[UserDb]:
         try:
-            return await self.get_data_by_id(table=users, id=id)
+            query = select(users).where(
+                users.columns.id == id, users.columns.is_active == True
+            )
+
+            result = await self.db.fetch_one(query)
+
+            return result
         except Exception as e:
             raise DbError(
                 message="Error when getting user by id",
@@ -54,9 +61,13 @@ class PostgresUserRepository(PostgresBaseRepository, UserRepository):
 
     async def get_by_email(self, email: str) -> dict[UserDb]:
         try:
-            return await self.get_data_by_specific_column(
-                table=users, column="email", value=email
+            query = select(users).where(
+                users.columns.email == email == id, users.columns.is_active == True
             )
+
+            result = await self.db.fetch_one(query)
+
+            return result
         except Exception as e:
             raise DbError(
                 message="Error when getting user by email",
@@ -72,9 +83,13 @@ class PostgresUserRepository(PostgresBaseRepository, UserRepository):
 
     async def get_by_username(self, username: str) -> dict[UserDb]:
         try:
-            return await self.get_data_by_specific_column(
-                table=users, column="username", value=username
+            query = select(users).where(
+                users.columns.username == username, users.columns.is_active == True
             )
+
+            result = await self.db.fetch_one(query)
+
+            return result
         except Exception as e:
             raise DbError(
                 message="Error when getting user by username",

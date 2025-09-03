@@ -9,7 +9,6 @@ class Error(BaseModel):
     default_message: str = "unknown error occurred"
     raised_error: str = "UnknownException"
     type: ErrorType = ErrorType.SYSTEM
-    code: int = 1
     metadata: List = []
     acknowledge: bool = True
 

@@ -4,12 +4,13 @@ from json import JSONDecodeError
 
 from fastapi.responses import StreamingResponse
 from src.core.middlewares.responses.error import (
+    AuthUnauthorizedErrorResponse,
     InternalErrorResponse,
     RouteNotFoundErrorResponse,
     ValidationErrorResponse,
 )
 from src.core.middlewares.responses.success import SuccessResponse
-from src.core.utils.exceptions.errors import RouteNotFoundError
+from src.core.utils.exceptions.errors import AuthUnauthorizedError, RouteNotFoundError
 from starlette.middleware.base import BaseHTTPMiddleware
 
 
@@ -45,6 +46,8 @@ class ResponseMiddleware(BaseHTTPMiddleware):
             return SuccessResponse(content=raw_body)
         except RouteNotFoundError as exception:
             return RouteNotFoundErrorResponse(exception=exception)
+        except AuthUnauthorizedError as exception:
+            return AuthUnauthorizedErrorResponse(exception=exception)
         except BaseException as exception:
             return ValidationErrorResponse(exception=exception)
         except Exception as exception:

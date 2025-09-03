@@ -4,7 +4,6 @@ class BaseException(Exception):
         message,
         default_message,
         raised_error,
-        code,
         error_type,
         acknowledge,
         metadata,
@@ -14,5 +13,4 @@ class BaseException(Exception):
         self.default_message = default_message
         self.metadata = metadata
         self.acknowledge = acknowledge
-        self.code = code
         self.type = error_type

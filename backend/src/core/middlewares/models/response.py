@@ -12,7 +12,6 @@ class Response(BaseModel):
     message: str = "unknown error occurred"
     data: Any = None
     error: Union[Error, None] = None
-    metadata: List = []
 
     def __init__(self, **kwargs):
         if isinstance(kwargs.get("error"), dict):
