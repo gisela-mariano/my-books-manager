@@ -1,10 +1,17 @@
 import os
 from contextlib import asynccontextmanager
+from pathlib import Path
+
+from dotenv import load_dotenv
+
+env_path = Path(__file__).parent.parent.parent.parent / ".env"
+load_dotenv(dotenv_path=env_path)
 
 from fastapi import FastAPI
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
-from src.api.v1.router import routes as api_v1_routes
+from src.api.v1.protected_router import routes as api_v1_protected_routes
+from src.api.v1.public_router import routes as api_v1_public_routes
 from src.core.di.containers import Container
 from src.core.enums.database import DatabaseType
 from src.core.middlewares.response_middleware import ResponseMiddleware
@@ -54,7 +61,8 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(lifespan=lifespan)
 
-app.include_router(api_v1_routes)
+app.include_router(api_v1_protected_routes)
+app.include_router(api_v1_public_routes)
 
 # Exception Handlers
 app.add_exception_handler(RequestValidationError, http_validation_exception_handler)

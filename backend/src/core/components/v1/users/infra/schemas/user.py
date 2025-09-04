@@ -13,7 +13,6 @@ class User(BaseModel):
     lastname: str = Field(max_length=255)
     username: str = Field(max_length=255)
     email: EmailStr = Field(max_length=60)
-    password: str
 
     @field_validator("name")
     def validate_name(cls, value):
@@ -35,10 +34,11 @@ class User(BaseModel):
 
 class UserDb(User, BaseInDb):
     is_active: bool = Field(default=True)
+    hash_password: str
     pass
 
 
-@exclude_fields("password")
+@exclude_fields("hash_password")
 class UserDbResponse(UserDb):
 
     class Config(BaseConfig):
@@ -54,5 +54,5 @@ class UserCreate(User):
 
 
 @exclude_fields("email")
-class UserUpdate(User, metaclass=AllOptional):
+class UserUpdate(UserCreate, metaclass=AllOptional):
     pass
