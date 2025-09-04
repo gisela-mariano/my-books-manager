@@ -17,7 +17,7 @@ class AuthService:
         if not user:
             raise AuthUnauthorizedError()
 
-        if not self._verify_password(password, user.get("hashed_password")):
+        if not self.verify_password(password, user.get("hashed_password")):
             raise AuthUnauthorizedError()
 
         token_data = TokenData(**user).model_dump(by_alias=True)
@@ -41,5 +41,5 @@ class AuthService:
     def get_password_hash(self, password):
         return self._pwd_context.hash(password)
 
-    def _verify_password(self, plain_password, hashed_password):
+    def verify_password(self, plain_password, hashed_password):
         return self._pwd_context.verify(plain_password, hashed_password)

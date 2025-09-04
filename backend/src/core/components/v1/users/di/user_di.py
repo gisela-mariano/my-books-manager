@@ -1,6 +1,6 @@
 from dependency_injector import containers, providers
-from src.core.components.v1.users.application.use_cases.user_creation_use_case import (
-    UserCreationUseCase,
+from src.core.components.v1.users.application.use_cases.user_create_use_case import (
+    UserCreateUseCase,
 )
 from src.core.components.v1.users.application.use_cases.user_find_by_email_use_case import (
     UserFindByEmailUseCase,
@@ -11,7 +11,11 @@ from src.core.components.v1.users.application.use_cases.user_find_by_id_use_case
 from src.core.components.v1.users.application.use_cases.user_find_by_username_use_case import (
     UserFindByUsernameUseCase,
 )
+from src.core.components.v1.users.application.use_cases.user_update_use_case import (
+    UserUpdateUseCase,
+)
 from src.core.components.v1.users.di.user_repository_di import UserRepositoryDI
+from src.core.components.v1.users.di.user_service_di import UserServiceDI
 
 
 class UserDI(containers.DeclarativeContainer):
@@ -25,9 +29,16 @@ class UserDI(containers.DeclarativeContainer):
 
     repository = _user_repository_di().repository
 
+    _user_service_di = providers.Container(UserServiceDI, repository=repository)
+
+    service = _user_service_di().service
+
     # Use cases
-    user_creation_use_case = providers.Factory(
-        UserCreationUseCase, repository=repository, auth_service=auth_service
+    user_create_use_case = providers.Factory(
+        UserCreateUseCase,
+        repository=repository,
+        service=service,
+        auth_service=auth_service,
     )
 
     user_find_by_id_use_case = providers.Factory(
@@ -40,4 +51,11 @@ class UserDI(containers.DeclarativeContainer):
 
     user_find_by_username_use_case = providers.Factory(
         UserFindByUsernameUseCase, repository=repository
+    )
+
+    user_update_use_case = providers.Factory(
+        UserUpdateUseCase,
+        repository=repository,
+        service=service,
+        auth_service=auth_service,
     )

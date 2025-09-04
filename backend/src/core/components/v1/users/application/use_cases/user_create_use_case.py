@@ -1,21 +1,25 @@
 from src.core.components.v1.auth.domain.auth_service import AuthService
 from src.core.components.v1.users.domain.user_repository import UserRepository
+from src.core.components.v1.users.domain.user_service import UserService
 from src.core.components.v1.users.infra.schemas.user import UserCreate, UserDbResponse
-from src.core.utils.exceptions.errors import AlreadyRegisteredError
 
 
-class UserCreationUseCase:
-    def __init__(self, repository: UserRepository, auth_service: AuthService):
+class UserCreateUseCase:
+    def __init__(
+        self,
+        repository: UserRepository,
+        service: UserService,
+        auth_service: AuthService,
+    ):
         self.repository = repository
+        self.service = service
         self.auth_service = auth_service
 
     async def execute(self, user: UserCreate) -> UserDbResponse:
-        already_registered = await self.repository.get_by_email(user.email)
 
-        if already_registered:
-            raise AlreadyRegisteredError(
-                f"User with email {user.email} already registered"
-            )
+        await self.service.verify_already_registered(
+            email=user.email, username=user.username
+        )
 
         hashed_password = self.auth_service.get_password_hash(user.password)
         del user.password
