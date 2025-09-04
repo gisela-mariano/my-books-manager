@@ -1,28 +1,18 @@
-from typing import Union
+from typing import Optional
 
-from pydantic import BaseModel
 from src.core.utils.models.base import BaseConfig
 
 
-class Token(BaseModel):
+class Token(BaseConfig):
     access_token: str
     token_type: str
 
-    class Config(BaseConfig):
-        pass
+
+class TokenData(BaseConfig):
+    username: Optional[str] = None
+    email: Optional[str] = None
 
 
-class TokenData(BaseModel):
-    username: Union[str, None] = None
-    email: Union[str, None] = None
-
-    class Config(BaseConfig):
-        pass
-
-
-class AuthLogin(BaseModel):
+class AuthLogin(BaseConfig):
     email: str
     password: str
-
-    class Config(BaseConfig):
-        pass

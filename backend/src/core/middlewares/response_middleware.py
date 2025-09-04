@@ -10,6 +10,7 @@ from src.core.middlewares.responses.error import (
     ValidationErrorResponse,
 )
 from src.core.middlewares.responses.success import SuccessResponse
+from src.core.utils.exceptions.base_exception import BaseException
 from src.core.utils.exceptions.errors import AuthUnauthorizedError, RouteNotFoundError
 from starlette.middleware.base import BaseHTTPMiddleware
 

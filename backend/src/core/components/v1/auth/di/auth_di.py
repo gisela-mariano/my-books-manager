@@ -1,10 +1,5 @@
 from dependency_injector import containers, providers
 from src.core.components.v1.auth.di.auth_service_di import AuthServiceDI
-from src.core.components.v1.auth.domain.auth_service import AuthService
-from src.core.components.v1.users.application.use_cases.user_creation_use_case import (
-    UserCreationUseCase,
-)
-from src.core.components.v1.users.di.user_repository_di import UserRepositoryDI
 
 
 class AuthDI(containers.DeclarativeContainer):
