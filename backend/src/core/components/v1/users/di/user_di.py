@@ -2,8 +2,14 @@ from dependency_injector import containers, providers
 from src.core.components.v1.users.application.use_cases.user_creation_use_case import (
     UserCreationUseCase,
 )
+from src.core.components.v1.users.application.use_cases.user_find_by_email_use_case import (
+    UserFindByEmailUseCase,
+)
 from src.core.components.v1.users.application.use_cases.user_find_by_id_use_case import (
     UserFindByIdUseCase,
+)
+from src.core.components.v1.users.application.use_cases.user_find_by_username_use_case import (
+    UserFindByUsernameUseCase,
 )
 from src.core.components.v1.users.di.user_repository_di import UserRepositoryDI
 
@@ -26,4 +32,12 @@ class UserDI(containers.DeclarativeContainer):
 
     user_find_by_id_use_case = providers.Factory(
         UserFindByIdUseCase, repository=repository
+    )
+
+    user_find_by_email_use_case = providers.Factory(
+        UserFindByEmailUseCase, repository=repository
+    )
+
+    user_find_by_username_use_case = providers.Factory(
+        UserFindByUsernameUseCase, repository=repository
     )

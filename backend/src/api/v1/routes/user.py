@@ -42,3 +42,29 @@ async def find_by_id(
     res = await user_find_by_id_use_case.execute(user_id)
 
     return BaseResponse(message="User successfully obtained", data=res)
+
+
+@user_router.get("/email/{user_email}", responses=get_responses(UserDbResponse))
+@inject
+async def find_by_id(
+    user_email: str,
+    user_find_by_email_use_case: UserFindByIdUseCase = Depends(
+        Provide[Container.components.user.user_find_by_email_use_case]
+    ),
+):
+    res = await user_find_by_email_use_case.execute(user_email)
+
+    return BaseResponse(message="User successfully obtained", data=res)
+
+
+@user_router.get("/username/{username}", responses=get_responses(UserDbResponse))
+@inject
+async def find_by_id(
+    username: str,
+    user_find_by_username_use_case: UserFindByIdUseCase = Depends(
+        Provide[Container.components.user.user_find_by_username_use_case]
+    ),
+):
+    res = await user_find_by_username_use_case.execute(username)
+
+    return BaseResponse(message="User successfully obtained", data=res)
