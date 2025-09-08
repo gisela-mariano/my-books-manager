@@ -37,11 +37,15 @@ class PostgresUserRepository(PostgresBaseRepository, UserRepository):
                 ],
             )
 
-    async def get_by_id(self, id: str) -> dict[UserDb]:
+    async def get_by_id(self, id: str, verify_activity: bool = True) -> dict[UserDb]:
+        """
+        Retrieve a user by username, optionally verifying if they are active (by default will verify activity).
+        """
         try:
-            query = select(users).where(
-                users.columns.id == id, users.columns.is_active == True
-            )
+            query = select(users).where(users.columns.id == id)
+
+            if verify_activity:
+                query = query.where(users.columns.is_active == True)
 
             result = await self.db.fetch_one(query)
 
@@ -59,11 +63,17 @@ class PostgresUserRepository(PostgresBaseRepository, UserRepository):
                 ],
             )
 
-    async def get_by_email(self, email: str) -> dict[UserDb]:
+    async def get_by_email(
+        self, email: str, verify_activity: bool = True
+    ) -> dict[UserDb]:
+        """
+        Retrieve a user by username, optionally verifying if they are active (by default will verify activity).
+        """
         try:
-            query = select(users).where(
-                users.columns.email == email == id, users.columns.is_active == True
-            )
+            query = select(users).where(users.columns.email == email)
+
+            if verify_activity:
+                query = query.where(users.columns.is_active == True)
 
             result = await self.db.fetch_one(query)
 
@@ -81,11 +91,17 @@ class PostgresUserRepository(PostgresBaseRepository, UserRepository):
                 ],
             )
 
-    async def get_by_username(self, username: str) -> dict[UserDb]:
+    async def get_by_username(
+        self, username: str, verify_activity: bool = True
+    ) -> dict[UserDb]:
+        """
+        Retrieve a user by username, optionally verifying if they are active (by default will verify activity).
+        """
         try:
-            query = select(users).where(
-                users.columns.username == username, users.columns.is_active == True
-            )
+            query = select(users).where(users.columns.username == username)
+
+            if verify_activity:
+                query = query.where(users.columns.is_active == True)
 
             result = await self.db.fetch_one(query)
 

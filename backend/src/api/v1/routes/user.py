@@ -86,3 +86,16 @@ async def update_user(
     res = await user_update_use_case.execute(id=user_id, user=payload)
 
     return BaseResponse(message="User successfully updated", data=res)
+
+
+@user_router.delete("/{user_id}", responses=get_responses(None))
+@inject
+async def delete_user(
+    user_id: str,
+    user_deactivate_use_case: UserFindByIdUseCase = Depends(
+        Provide[Container.components.user.user_deactivate_use_case]
+    ),
+):
+    await user_deactivate_use_case.execute(id=user_id)
+
+    return BaseResponse(message="User successfully deleted")

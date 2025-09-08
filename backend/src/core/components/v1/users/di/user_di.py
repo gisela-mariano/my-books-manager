@@ -2,6 +2,9 @@ from dependency_injector import containers, providers
 from src.core.components.v1.users.application.use_cases.user_create_use_case import (
     UserCreateUseCase,
 )
+from src.core.components.v1.users.application.use_cases.user_deactivate_use_case import (
+    UserDeactivateUseCase,
+)
 from src.core.components.v1.users.application.use_cases.user_find_by_email_use_case import (
     UserFindByEmailUseCase,
 )
@@ -58,4 +61,10 @@ class UserDI(containers.DeclarativeContainer):
         repository=repository,
         service=service,
         auth_service=auth_service,
+    )
+
+    user_deactivate_use_case = providers.Factory(
+        UserDeactivateUseCase,
+        repository=repository,
+        service=service,
     )

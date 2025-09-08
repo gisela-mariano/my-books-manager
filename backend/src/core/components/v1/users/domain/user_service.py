@@ -1,5 +1,5 @@
 from asyncio import gather
-from typing import Union
+from typing import Optional
 
 from src.core.components.v1.users.domain.user_repository import UserRepository
 from src.core.components.v1.users.infra.schemas.user import UserDb
@@ -12,9 +12,9 @@ class UserService:
 
     async def verify_already_registered(
         self,
-        email: Union[str, None] = None,
-        username: Union[str, None] = None,
-        id: Union[str, None] = None,
+        email: Optional[str] = None,
+        username: Optional[str] = None,
+        id: Optional[str] = None,
     ) -> bool:
         """Verify if user already exists by email or username
 
@@ -22,7 +22,7 @@ class UserService:
 
 
         Args:
-            id (Union[str, None])
+            id (Optional[str])
             email (str)
             username (str)
 
@@ -35,9 +35,13 @@ class UserService:
         tasks = {}
 
         if email:
-            tasks["email"] = self.repository.get_by_email(email)
+            tasks["email"] = self.repository.get_by_email(
+                email=email, verify_activity=False
+            )
         if username:
-            tasks["username"] = self.repository.get_by_username(username)
+            tasks["username"] = self.repository.get_by_username(
+                username=username, verify_activity=False
+            )
 
         results = await gather(*tasks.values())
         lookup = dict(zip(tasks.keys(), results))

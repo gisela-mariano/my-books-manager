@@ -1,8 +1,7 @@
 from abc import ABC, abstractmethod
-from typing import Dict, Optional, Union
+from typing import Optional, Union
 
 from src.core.components.v1.users.infra.schemas.user import (
-    User,
     UserCreate,
     UserDb,
     UserUpdate,
@@ -15,15 +14,19 @@ class UserRepository(ABC):
         pass
 
     @abstractmethod
-    def get_by_id(self, id: str) -> Union[UserDb, None]:
+    def get_by_id(self, id: str, verify_activity: bool = True) -> Optional[UserDb]:
         pass
 
     @abstractmethod
-    def get_by_email(self, email: str) -> Union[UserDb, None]:
+    def get_by_email(
+        self, email: str, verify_activity: bool = True
+    ) -> Union[UserDb, None]:
         pass
 
     @abstractmethod
-    def get_by_username(self, username: str) -> Union[UserDb, None]:
+    def get_by_username(
+        self, username: str, verify_activity: bool = True
+    ) -> Union[UserDb, None]:
         pass
 
     @abstractmethod
