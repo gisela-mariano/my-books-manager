@@ -12,11 +12,12 @@ class BookSearchUseCase:
     async def execute(
         self,
         search_term: str = None,
-        limit: Optional[int] = 25,
-        offset: Optional[int] = 0,
         author: Optional[str] = None,
         publisher: Optional[str] = None,
         title: Optional[str] = None,
+        isbn: Optional[str] = None,
+        limit: Optional[int] = 25,
+        offset: Optional[int] = 0,
     ):
 
         query = ""
@@ -32,6 +33,9 @@ class BookSearchUseCase:
 
         if title:
             query += f"+intitle:{title}"
+
+        if isbn:
+            query += f"+isbn:{isbn}"
 
         result = self.google_books_provider.search_volume(
             query=query, limit=limit, offset=offset

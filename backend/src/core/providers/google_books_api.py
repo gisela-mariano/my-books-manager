@@ -1,9 +1,10 @@
 import requests
 from src.core.components.v1.books.infra.schemas.google_books import GoogleVolumeSearch
+from src.core.utils.api.base import BaseAPI
 from src.core.utils.exceptions.errors import ApiServiceCodeError
 
 
-class GoogleBooksApiProvider:
+class GoogleBooksApiProvider(BaseAPI):
     base_url = "https://www.googleapis.com/books/v1/volumes"
 
     def search_volume(
@@ -12,7 +13,7 @@ class GoogleBooksApiProvider:
         try:
             url = f"{self.base_url}?q={query}&maxResults={limit}&startIndex={offset}"
 
-            res = requests.get(url)
+            res = self._get(url)
 
             data = res.json()
 
