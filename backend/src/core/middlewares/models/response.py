@@ -2,7 +2,7 @@ from typing import Any, List, Optional, Union
 
 from pydantic import BaseModel, Field, ValidationInfo, field_validator
 from src.core.middlewares.models.enum.status import ResponseStatus
-from src.core.middlewares.models.error import Error
+from src.core.middlewares.models.error import ErrorModel
 
 
 class Response(BaseModel):
@@ -11,11 +11,11 @@ class Response(BaseModel):
     status: ResponseStatus = ResponseStatus.FAILED
     message: str = "unknown error occurred"
     data: Any = None
-    error: Union[Error, None] = None
+    error: Union[ErrorModel, None] = None
 
     def __init__(self, **kwargs):
         if isinstance(kwargs.get("error"), dict):
-            kwargs["error"] = Error(kwargs["error"])
+            kwargs["error"] = ErrorModel(kwargs["error"])
         super().__init__(**kwargs)
 
     @field_validator("status_code")

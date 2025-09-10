@@ -2,7 +2,7 @@ from abc import ABC
 
 from fastapi.responses import JSONResponse
 from src.core.middlewares.models.enum.status import ResponseStatus
-from src.core.middlewares.models.error import Error
+from src.core.middlewares.models.error import ErrorModel
 from src.core.middlewares.models.response import Response
 from starlette.status import (
     HTTP_400_BAD_REQUEST,
@@ -22,7 +22,7 @@ class BaseErrorResponse(JSONResponse, ABC):
 
     @staticmethod
     def format_content(exception: Exception):
-        error = Error(exception=exception)
+        error = ErrorModel(exception=exception)
         error.Config.use_enum_values = True
         return Response(
             **dict(
@@ -30,7 +30,6 @@ class BaseErrorResponse(JSONResponse, ABC):
                 message=error.message or error.default_message,
                 error=error,
                 status=ResponseStatus.FAILED,
-                # metadata=error.metadata,
             )
         ).model_dump()
 

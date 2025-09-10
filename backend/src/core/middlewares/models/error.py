@@ -4,7 +4,7 @@ from pydantic import BaseModel
 from src.core.middlewares.models.enum.type import ErrorType
 
 
-class Error(BaseModel):
+class ErrorModel(BaseModel):
     message: str
     default_message: str = "unknown error occurred"
     raised_error: str = "UnknownException"

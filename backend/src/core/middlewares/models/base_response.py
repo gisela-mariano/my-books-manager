@@ -1,14 +1,14 @@
 from typing import Any, Optional, Union
 
 from pydantic import BaseModel, Field, model_validator
-from src.core.middlewares.models.error import Error
+from src.core.middlewares.models.error import ErrorModel
 
 
 class BaseResponse(BaseModel):
     status_code: Optional[int] = Field(200, ge=200, le=599)
     message: str = ""
     data: Any = None
-    error: Union[Error, None] = None
+    error: Union[ErrorModel, None] = None
 
     class Config:
         validate_assignment = True
