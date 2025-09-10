@@ -8,7 +8,8 @@ class Token(BaseConfig):
     token_type: str
 
 
-class TokenData(BaseConfig):
+class TokenUserData(BaseConfig):
+    id: str = None
     username: Optional[str] = None
     email: Optional[str] = None
 

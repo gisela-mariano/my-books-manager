@@ -1,5 +1,5 @@
 from passlib.context import CryptContext
-from src.core.components.v1.auth.infra.schemas.auth import Token, TokenData
+from src.core.components.v1.auth.infra.schemas.auth import Token, TokenUserData
 from src.core.components.v1.users.domain.user_repository import UserRepository
 from src.core.utils.auth.auth_handler import create_access_token, decode_access_token
 from src.core.utils.exceptions.errors import AuthUnauthorizedError, CredentialError
@@ -20,9 +20,9 @@ class AuthService:
         if not self.verify_password(password, user.get("hashed_password")):
             raise AuthUnauthorizedError()
 
-        token_data = TokenData(**user).model_dump(by_alias=True)
+        token_data = TokenUserData(**user).model_dump(by_alias=True)
 
-        access_token = create_access_token(data={"sub": {**token_data}})
+        access_token = create_access_token(data=token_data)
 
         return Token(access_token=access_token, token_type="bearer").model_dump(
             by_alias=True

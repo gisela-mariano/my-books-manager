@@ -1,3 +1,5 @@
+from typing import Optional
+
 from fastapi import HTTPException, Request
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from src.core.utils.auth.auth_handler import decode_access_token
@@ -16,18 +18,18 @@ class JWTBearer(HTTPBearer):
         except HTTPException as e:
             raise AuthUnauthorizedError("Invalid authentication", metadata=[str(e)])
 
-        if credentials:
-            if not credentials.scheme == "Bearer":
-                raise AuthUnauthorizedError("Invalid authentication scheme.")
-            if not self.verify_jwt(credentials.credentials):
-                raise AuthUnauthorizedError("Invalid or expired token.")
-            return credentials.credentials
-        else:
-            raise AuthUnauthorizedError("Invalid authorization code.")
+        if not credentials or credentials.scheme != "Bearer":
+            raise AuthUnauthorizedError("Invalid authentication scheme.")
 
-    def verify_jwt(self, jwtoken: str) -> bool:
+        payload = self.verify_jwt(credentials.credentials)
+
+        if not payload:
+            raise AuthUnauthorizedError("Invalid or expired token.")
+
+        request.state.user = payload.get("user")
+
+    def verify_jwt(self, jwtoken: str) -> Optional[dict]:
         try:
-            payload = decode_access_token(jwtoken)
-        except:
-            payload = None
-        return bool(payload)
+            return decode_access_token(jwtoken)
+        except Exception:
+            return None

@@ -2,21 +2,17 @@ import os
 from datetime import datetime, timedelta, timezone
 
 import jwt
-from fastapi import Header
-from jwt.exceptions import InvalidTokenError, PyJWTError
-from src.core.components.v1.auth.infra.schemas.auth import TokenData
-from src.core.utils.exceptions.errors import AuthUnauthorizedError, CredentialError
+from jwt.exceptions import InvalidTokenError
+from src.core.components.v1.auth.infra.schemas.auth import TokenUserData
+from src.core.utils.exceptions.errors import CredentialError
 
 SECRET_KEY = os.getenv("SECRET_KEY")
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
 
-def create_access_token(data: dict[TokenData]) -> str:
-    to_encode = data.copy()
-
-    if "sub" in to_encode and not isinstance(to_encode["sub"], str):
-        to_encode["sub"] = str(to_encode["sub"])
+def create_access_token(data: dict[TokenUserData]) -> str:
+    to_encode = {"user": data.copy()}
 
     expire = datetime.now(timezone.utc) + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     to_encode.update({"exp": expire, "iat": datetime.now(timezone.utc)})
