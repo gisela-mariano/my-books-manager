@@ -6,6 +6,9 @@ from src.core.components.v1.users.application.use_cases.user_create_use_case imp
 from src.core.components.v1.users.application.use_cases.user_find_by_id_use_case import (
     UserFindByIdUseCase,
 )
+from src.core.components.v1.users.application.use_cases.user_update_use_case import (
+    UserUpdateUseCase,
+)
 from src.core.components.v1.users.infra.schemas.user import (
     UserCreate,
     UserDbResponse,
@@ -79,7 +82,7 @@ async def find_user_by_username(
 async def update_user(
     user_id: str,
     payload: UserUpdate = Body(...),
-    user_update_use_case: UserFindByIdUseCase = Depends(
+    user_update_use_case: UserUpdateUseCase = Depends(
         Provide[Container.components.user.user_update_use_case]
     ),
 ):

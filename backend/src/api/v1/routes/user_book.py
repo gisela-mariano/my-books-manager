@@ -11,10 +11,14 @@ from src.core.components.v1.user_books.application.use_cases.user_book_get_by_id
 from src.core.components.v1.user_books.application.use_cases.user_book_get_user_books import (
     UserBookGetUserBooksUseCase,
 )
+from src.core.components.v1.user_books.application.use_cases.user_book_update_use_case import (
+    UserBookUpdateUseCase,
+)
 from src.core.components.v1.user_books.infra.schemas.user_book import (
     UserBookCreate,
     UserBookJoinBook,
     UserBooksJoinBookPaginatedResponse,
+    UserBookUpdate,
 )
 from src.core.di.containers import Container
 from src.core.middlewares.models.base_response import BaseResponse
@@ -67,3 +71,17 @@ async def get_user_book_by_id(
     res = await user_book_get_by_id_use_case.execute(id=user_book_id)
 
     return BaseResponse(message="Book successfully obtained", data=res)
+
+
+@user_book_router.patch("/{user_book_id}", responses=get_responses(UserBookJoinBook))
+@inject
+async def update_user_book(
+    user_book_id: str,
+    payload: UserBookUpdate = Body(...),
+    user_book_update_use_case: UserBookUpdateUseCase = Depends(
+        Provide[Container.components.user_book.user_book_update_use_case]
+    ),
+):
+    res = await user_book_update_use_case.execute(id=user_book_id, payload=payload)
+
+    return BaseResponse(message="User Book successfully updated", data=res)

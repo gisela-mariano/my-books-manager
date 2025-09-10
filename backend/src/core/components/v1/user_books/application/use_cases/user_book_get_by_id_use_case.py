@@ -10,10 +10,8 @@ class UserBookGetByIdUseCase:
     def __init__(
         self,
         repository: UserBookRepository,
-        user_service: UserService,
     ) -> None:
         self.repository = repository
-        self.user_service = user_service
 
     async def execute(self, id: str) -> dict[UserBookJoinBook]:
         user_book = await self.repository.get_by_id(id=id)

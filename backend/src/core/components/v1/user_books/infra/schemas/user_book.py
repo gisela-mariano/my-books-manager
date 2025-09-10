@@ -5,7 +5,7 @@ from typing import List, Optional
 from pydantic import Field, field_serializer, field_validator
 from src.core.components.v1.books.infra.schemas.book import Book
 from src.core.utils.date import format_date_string_to_isoformat
-from src.core.utils.models.base import BaseConfig, BaseInDb, exclude_fields
+from src.core.utils.models.base import AllOptional, BaseConfig, BaseInDb, exclude_fields
 
 
 class UserBookReadingStatus(Enum):
@@ -36,9 +36,7 @@ class UserBooksJoinBookPaginatedResponse(BaseConfig):
     total: int
 
 
-@exclude_fields("user_id", "book_id")
-class UserBookCreate(UserBook):
-    book: Book
+class UerBookStrDatePayload(BaseConfig):
     reading_start_date: Optional[str] = Field(
         default=None,
         description="Required format: YYYY-MM-DD or YYYY-MM-DDTHH:MM:SS.sssZ",
@@ -53,7 +51,9 @@ class UserBookCreate(UserBook):
         return format_date_string_to_isoformat(value)
 
 
-class UserBookCreateDb(UserBook):
+class UserBookStrDateSerializerPayload(BaseConfig):
+    reading_start_date: Optional[str] = None
+    reading_end_date: Optional[str] = None
 
     @field_serializer("reading_start_date", "reading_end_date")
     def serialize_dates(self, value: Optional[str], _info):
@@ -61,9 +61,21 @@ class UserBookCreateDb(UserBook):
             return None
         return datetime.fromisoformat(value)
 
+
+@exclude_fields("user_id", "book_id")
+class UserBookCreate(UserBook, UerBookStrDatePayload):
+    book: Book
+
+
+class UserBookCreateDb(UserBook, UserBookStrDateSerializerPayload):
     pass
 
 
 @exclude_fields("user_id", "book_id")
-class UserBookUpdate(Book, UserBook):
+class UserBookUpdate(UserBook, UerBookStrDatePayload, metaclass=AllOptional):
+    pass
+
+
+@exclude_fields("user_id", "book_id")
+class UserBookUpdateDb(UserBook, UserBookStrDateSerializerPayload):
     pass

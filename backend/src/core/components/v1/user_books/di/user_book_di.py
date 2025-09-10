@@ -8,6 +8,9 @@ from src.core.components.v1.user_books.application.use_cases.user_book_get_by_id
 from src.core.components.v1.user_books.application.use_cases.user_book_get_user_books import (
     UserBookGetUserBooksUseCase,
 )
+from src.core.components.v1.user_books.application.use_cases.user_book_update_use_case import (
+    UserBookUpdateUseCase,
+)
 from src.core.components.v1.user_books.di.user_book_repository_di import (
     UserBookRepositoryDI,
 )
@@ -52,5 +55,10 @@ class UserBookDI(containers.DeclarativeContainer):
     user_book_get_by_id_use_case = providers.Factory(
         UserBookGetByIdUseCase,
         repository=repository,
-        user_service=user_service,
+    )
+
+    user_book_update_use_case = providers.Factory(
+        UserBookUpdateUseCase,
+        repository=repository,
+        service=service,
     )

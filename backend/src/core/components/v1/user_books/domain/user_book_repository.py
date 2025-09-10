@@ -31,7 +31,7 @@ class UserBookRepository(ABC):
 
     @abstractmethod
     def update(
-        self, id: str, user_book: dict[UserBookUpdate]
+        self, id: str, user_book: dict[UserBookUpdate], join_book: bool = False
     ) -> dict[UserBookJoinBook]:
         pass
 

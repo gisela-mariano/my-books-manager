@@ -162,9 +162,27 @@ class PostgresUserBookRepository(PostgresBaseRepository, UserBookRepository):
             )
 
     async def update(
-        self, id: str, user_book: dict[UserBookUpdate]
+        self, id: str, user_book: dict[UserBookUpdate], join_book: bool = False
     ) -> dict[UserBookJoinBook]:
-        pass
+        try:
+            result = await self.update_data(table=user_books, id=id, payload=user_book)
+
+            if join_book:
+                result = await self.get_by_id(id=id)
+
+            return result
+        except Exception as e:
+            raise DbError(
+                message="Error when updating user book",
+                metadata=[
+                    {
+                        "exception": str(e),
+                        "payload": get_caller_payload(),
+                        "where": get_caller_name(),
+                        "from": get_caller_info(),
+                    }
+                ],
+            )
 
     async def delete(self, id: str) -> bool:
         pass

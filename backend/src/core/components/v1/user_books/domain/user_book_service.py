@@ -5,7 +5,7 @@ from src.core.components.v1.user_books.infra.schemas.user_book import (
     UserBookCreateDb,
     UserBookDb,
 )
-from src.core.utils.exceptions.errors import AlreadyRegisteredError
+from src.core.utils.exceptions.errors import AlreadyRegisteredError, AssetNotFoundError
 
 
 class UserBookService:
@@ -29,3 +29,23 @@ class UserBookService:
             if created_user_book
             else None
         )
+
+    async def verify_user_book_exists_by_id(self, id: str) -> UserBookDb:
+        """Verify if user book exists by id
+
+        Args:
+            id (str): user book id
+
+        Raises:
+            AssetNotFoundError: Raises if user book does not exist
+
+        Returns:
+            UserBookDb: Return user book if exists
+        """
+
+        user = await self.repository.get_by_id(id=id)
+
+        if not user:
+            raise AssetNotFoundError(f"User book with id {id} not found")
+
+        return user
