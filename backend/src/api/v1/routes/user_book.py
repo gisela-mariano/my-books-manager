@@ -5,6 +5,9 @@ from fastapi import APIRouter, Body, Depends, Request
 from src.core.components.v1.user_books.application.use_cases.user_book_create_use_case import (
     UserBookCreateUseCase,
 )
+from src.core.components.v1.user_books.application.use_cases.user_book_get_by_id_use_case import (
+    UserBookGetByIdUseCase,
+)
 from src.core.components.v1.user_books.application.use_cases.user_book_get_user_books import (
     UserBookGetUserBooksUseCase,
 )
@@ -51,3 +54,16 @@ async def get_user_books(
     res = await user_book_get_user_books_use_case.execute(user_id=user_id, **params)
 
     return BaseResponse(message="Books successfully obtained", data=res)
+
+
+@user_book_router.get("/{user_book_id}", responses=get_responses(UserBookJoinBook))
+@inject
+async def get_user_book_by_id(
+    user_book_id: str,
+    user_book_get_by_id_use_case: UserBookGetByIdUseCase = Depends(
+        Provide[Container.components.user_book.user_book_get_by_id_use_case]
+    ),
+):
+    res = await user_book_get_by_id_use_case.execute(id=user_book_id)
+
+    return BaseResponse(message="Book successfully obtained", data=res)
