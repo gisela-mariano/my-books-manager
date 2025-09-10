@@ -185,4 +185,19 @@ class PostgresUserBookRepository(PostgresBaseRepository, UserBookRepository):
             )
 
     async def delete(self, id: str) -> bool:
-        pass
+        try:
+            result = await self.delete_data(table=user_books, id=id)
+
+            return result
+        except Exception as e:
+            raise DbError(
+                message="Error when deleting user book",
+                metadata=[
+                    {
+                        "exception": str(e),
+                        "payload": get_caller_payload(),
+                        "where": get_caller_name(),
+                        "from": get_caller_info(),
+                    }
+                ],
+            )

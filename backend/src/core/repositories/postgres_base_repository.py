@@ -1,6 +1,6 @@
 from typing import List, Union
 
-from sqlalchemy import Table, insert, select, update
+from sqlalchemy import Table, delete, insert, select, update
 from src.core.persistence.database.postgres_database import Database as PostgresDatabase
 
 
@@ -17,7 +17,7 @@ class PostgresBaseRepository:
 
     async def get_data_by_id(self, table: Table, id: str) -> dict:
         query = select(table).where(
-            table.columns.id == id,
+            table.c.id == id,
         )
         result = await self.db.fetch_one(query)
 
@@ -47,9 +47,16 @@ class PostgresBaseRepository:
         query = (
             update(table)
             .returning(*table.columns)
-            .where(table.columns.id == id)
+            .where(table.c.id == id)
             .values(payload)
         )
         result = await self.db.fetch_one(query)
+
+        return result
+
+    async def delete_data(self, table: Table, id: str) -> bool:
+        query = delete(table).where(table.c.id == id)
+
+        result = await self.db.delete(query)
 
         return result

@@ -2,6 +2,9 @@ from dependency_injector import containers, providers
 from src.core.components.v1.user_books.application.use_cases.user_book_create_use_case import (
     UserBookCreateUseCase,
 )
+from src.core.components.v1.user_books.application.use_cases.user_book_delete_use_case import (
+    UserBookDeleteUseCase,
+)
 from src.core.components.v1.user_books.application.use_cases.user_book_get_by_id_use_case import (
     UserBookGetByIdUseCase,
 )
@@ -59,6 +62,12 @@ class UserBookDI(containers.DeclarativeContainer):
 
     user_book_update_use_case = providers.Factory(
         UserBookUpdateUseCase,
+        repository=repository,
+        service=service,
+    )
+
+    user_book_delete_use_case = providers.Factory(
+        UserBookDeleteUseCase,
         repository=repository,
         service=service,
     )

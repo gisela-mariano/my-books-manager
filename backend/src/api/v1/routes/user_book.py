@@ -5,6 +5,9 @@ from fastapi import APIRouter, Body, Depends, Request
 from src.core.components.v1.user_books.application.use_cases.user_book_create_use_case import (
     UserBookCreateUseCase,
 )
+from src.core.components.v1.user_books.application.use_cases.user_book_delete_use_case import (
+    UserBookDeleteUseCase,
+)
 from src.core.components.v1.user_books.application.use_cases.user_book_get_by_id_use_case import (
     UserBookGetByIdUseCase,
 )
@@ -85,3 +88,16 @@ async def update_user_book(
     res = await user_book_update_use_case.execute(id=user_book_id, payload=payload)
 
     return BaseResponse(message="User Book successfully updated", data=res)
+
+
+@user_book_router.delete("/{user_book_id}", responses=get_responses(None))
+@inject
+async def delete_user_book(
+    user_book_id: str,
+    user_book_delete_use_case: UserBookDeleteUseCase = Depends(
+        Provide[Container.components.user_book.user_book_delete_use_case]
+    ),
+):
+    await user_book_delete_use_case.execute(id=user_book_id)
+
+    return BaseResponse(message="User Book successfully deleted")
