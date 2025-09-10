@@ -47,24 +47,25 @@ class PostgresUserBookRepository(PostgresBaseRepository, UserBookRepository):
         self, id: str, join_book: bool = True
     ) -> Optional[UserBookJoinBook]:
         try:
-            j = join(
-                user_books,
-                books,
-                user_books.columns.book_id == books.columns.id,
-                full=True,
-            )
-
-            query = select(user_books).where(
-                user_books.c.id == id,
-            )
 
             if join_book:
+                j = join(
+                    user_books,
+                    books,
+                    user_books.columns.book_id == books.columns.id,
+                    full=True,
+                )
+
                 query = (
                     select(*user_books.columns, *alias_columns(books, "b"))
                     .select_from(j)
                     .where(
                         user_books.c.id == id,
                     )
+                )
+            else:
+                query = select(user_books).where(
+                    user_books.c.id == id,
                 )
 
             result = await self.db.fetch_one(query)
@@ -87,19 +88,14 @@ class PostgresUserBookRepository(PostgresBaseRepository, UserBookRepository):
         self, user_id: str, book_id: str, join_book: bool = True
     ) -> Optional[UserBookJoinBook]:
         try:
-            j = join(
-                user_books,
-                books,
-                user_books.columns.book_id == books.columns.id,
-                full=True,
-            )
-
-            query = select(user_books).where(
-                user_books.columns.user_id == user_id,
-                user_books.columns.book_id == book_id,
-            )
-
             if join_book:
+                j = join(
+                    user_books,
+                    books,
+                    user_books.columns.book_id == books.columns.id,
+                    full=True,
+                )
+
                 query = (
                     select(*user_books.columns, *alias_columns(books, "b"))
                     .select_from(j)
@@ -107,6 +103,11 @@ class PostgresUserBookRepository(PostgresBaseRepository, UserBookRepository):
                         user_books.columns.user_id == user_id,
                         user_books.columns.book_id == book_id,
                     )
+                )
+            else:
+                query = select(user_books).where(
+                    user_books.columns.user_id == user_id,
+                    user_books.columns.book_id == book_id,
                 )
 
             result = await self.db.fetch_one(query)
@@ -126,28 +127,23 @@ class PostgresUserBookRepository(PostgresBaseRepository, UserBookRepository):
             )
 
     async def get_user_books_by_user_id(
-        self, user_id: str, join_book: bool = True
+        self, user_id: str, limit=25, offset=0, join_book: bool = True
     ) -> List[UserBookJoinBook]:
         try:
-            j = join(
-                user_books,
-                books,
-                user_books.columns.book_id == books.columns.id,
-                full=True,
-            )
-
-            query = select(user_books).where(
-                user_books.columns.user_id == user_id,
-            )
-
             if join_book:
-                query = (
-                    select(*user_books.columns, *alias_columns(books, "b"))
-                    .select_from(j)
-                    .where(
-                        user_books.columns.user_id == user_id,
-                    )
+                j = join(
+                    user_books, books, user_books.c.book_id == books.c.id, full=True
                 )
+
+                query = (
+                    select(*user_books.c, *alias_columns(books, "b"))
+                    .select_from(j)
+                    .where(user_books.c.user_id == user_id)
+                )
+            else:
+                query = select(user_books).where(user_books.c.user_id == user_id)
+
+            query = query.limit(limit).offset(offset)
 
             result = await self.db.fetch_all(query)
 

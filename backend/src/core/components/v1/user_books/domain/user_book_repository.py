@@ -25,7 +25,7 @@ class UserBookRepository(ABC):
 
     @abstractmethod
     def get_user_books_by_user_id(
-        self, user_id: str, join_book: bool = True
+        self, user_id: str, limit=25, offset=0, join_book: bool = True
     ) -> List[UserBookJoinBook]:
         pass
 

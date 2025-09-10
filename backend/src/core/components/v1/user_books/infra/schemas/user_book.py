@@ -1,6 +1,6 @@
 from datetime import datetime
 from enum import Enum
-from typing import Optional
+from typing import List, Optional
 
 from pydantic import Field, field_serializer, field_validator
 from src.core.components.v1.books.infra.schemas.book import Book
@@ -29,6 +29,11 @@ class UserBookDb(UserBook, BaseInDb):
 
 class UserBookJoinBook(UserBookDb):
     book: Book
+
+
+class UserBooksJoinBookPaginatedResponse(BaseConfig):
+    books: List[UserBookJoinBook]
+    total: int
 
 
 @exclude_fields("user_id", "book_id")
