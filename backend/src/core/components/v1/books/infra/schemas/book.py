@@ -16,7 +16,11 @@ class Book(BaseConfig):
 
 
 class BookDb(Book, BaseInDb):
-    created_at: Optional[str] = Field(default=None)
+    pass
+
+
+class BookCreate(Book):
+    pass
 
 
 class BookSearchPaginatedResponse(BaseConfig):
