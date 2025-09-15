@@ -30,6 +30,10 @@ class UserBookRepository(ABC):
         pass
 
     @abstractmethod
+    def get_user_books_total_by_user_id(self, user_id: str) -> int:
+        pass
+
+    @abstractmethod
     def update(
         self, id: str, user_book: dict[UserBookUpdate], join_book: bool = False
     ) -> dict[UserBookJoinBook]:

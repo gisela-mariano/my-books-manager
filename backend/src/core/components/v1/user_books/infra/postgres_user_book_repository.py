@@ -1,6 +1,6 @@
 from typing import List, Optional
 
-from sqlalchemy import join, select
+from sqlalchemy import func, join, select
 from src.core.components.v1.books.infra.models.book import books
 from src.core.components.v1.user_books.domain.user_book_repository import (
     UserBookRepository,
@@ -126,6 +126,21 @@ class PostgresUserBookRepository(PostgresBaseRepository, UserBookRepository):
         except Exception as e:
             raise DbError(
                 message="Error when getting user books by user id",
+                metadata=[get_exception_metadata(e)],
+            )
+
+    async def get_user_books_total_by_user_id(self, user_id: str) -> int:
+        try:
+            query = select(func.count(user_books.c.id)).where(
+                user_books.c.user_id == user_id
+            )
+
+            result = await self.db.fetch_val(query)
+
+            return result
+        except Exception as e:
+            raise DbError(
+                message="Error when getting user books total by user id",
                 metadata=[get_exception_metadata(e)],
             )
 

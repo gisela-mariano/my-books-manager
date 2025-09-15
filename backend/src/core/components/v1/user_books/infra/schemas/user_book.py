@@ -32,7 +32,7 @@ class UserBookJoinBook(UserBookDb):
 
 
 class UserBooksJoinBookPaginatedResponse(BaseConfig):
-    books: List[UserBookJoinBook]
+    user_books: List[UserBookJoinBook]
     total: int
 
 
