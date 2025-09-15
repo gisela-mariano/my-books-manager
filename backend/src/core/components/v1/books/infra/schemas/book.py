@@ -13,6 +13,9 @@ class Book(BaseConfig):
     isbn_13: Optional[str] = Field(default=None, min_length=13, max_length=13)
     page_count: Optional[int] = None
     published_date: Optional[str] = None
+    publisher: Optional[str] = None
+    authors: Optional[List[str]] = None
+    categories: Optional[List[str]] = None
 
 
 class BookDb(Book, BaseInDb):
