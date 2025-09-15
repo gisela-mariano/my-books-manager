@@ -44,7 +44,6 @@ if DATABASE_TYPE == DatabaseType.POSTGRES.value:
         logger.error("CONNECTION_STRING environment variable is not set")
 
 
-# DO: Verificar se essa função é mesmo necessária
 def listen_for_database_events(container):
     """
     Adiciona listeners para eventos de banco de dados. Apenas para PostgreSQL.

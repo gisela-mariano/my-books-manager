@@ -1,0 +1,30 @@
+{
+	// Use o IntelliSense para saber mais sobre os atributos possíveis.
+	// Focalizar para exibir as descrições dos atributos existentes.
+	// Para obter mais informações, acesse: https://go.microsoft.com/fwlink/?linkid=830387
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"name": "Python Debugger: FastAPI",
+			"type": "debugpy",
+			"request": "launch",
+			"module": "uvicorn",
+			"args": [
+				"src.api.main:app",
+				"--reload"
+			],
+			// "jinja": true
+			"env": {
+				"CONNECTION_STRING": "postgres://postgres:password@localhost:5432/my-books-manager-db",
+				"DATABASE_NAME": "my-books-manager-db",
+				"DATABASE_TYPE": "postgres",
+			},
+			"cwd": "${workspaceRoot}/backend",
+			"console": "integratedTerminal",
+			"envFile": "${workspaceFolder}/backend/config/environment.yaml",
+			"autoReload": {
+				"enable": true,
+			}
+		}
+	]
+}
