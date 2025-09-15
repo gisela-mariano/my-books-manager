@@ -1,10 +1,10 @@
-![](https://img.shields.io/badge/Status%20de%20Desenvolvimento%3A-Inicial%3A%20Em%20Desenvolvimento-orange?style=for-the-badge&labelColor=red)
+![](https://img.shields.io/badge/Status%20de%20Desenvolvimento%3A-Em%20Desenvolvimento-orange?style=for-the-badge&labelColor=red)
 
 Essa documentação ainda não está finalizada. Como o projeto ainda está em desenvolvimento, algumas informações poderão ser alteradas.
 
-**Status BackEnd:** Iniciado
+**Status BackEnd:** MVP Concluído
 
-**Status FrontEnd:** Não iniciado
+**Status FrontEnd:** Iniciado
 
 # 📒 My Books Manager
 
