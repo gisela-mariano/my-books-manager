@@ -13,9 +13,6 @@ from sqlalchemy.ext.asyncio import (
     create_async_engine,
 )
 from sqlalchemy.orm import DeclarativeBase
-
-# DO: Remover comentários
-# from sqlalchemy.pool import AsyncAdaptedQueuePool
 from sqlalchemy.sql import Delete, Executable
 
 logger = logging.getLogger("uvicorn.error")
@@ -31,39 +28,14 @@ class Database:
         dsn: str,
         metadata: Type[DeclarativeBase],
         echo: bool = False,
-        # DO: Remover comentários
-        # pool_size: int = 10,
-        # max_overflow: int = 40,
-        # pool_recycle: int = 300,
-        # pool_pre_ping: bool = True,
-        # future: bool = True,
-        # isolation_level: str = "READ COMMITTED",
-        # connect_args: Optional[Mapping[str, Any]] = {},
     ) -> None:
         self.dsn = dsn
         self.metadata = metadata
         self.echo = echo
 
-        # DO: Remover comentários
-        # connect_args = {
-        #     "statement_cache_size": 0,
-        #     "prepared_statement_cache_size": 0,
-        #     "ssl": "require",
-        #     **connect_args,
-        # }
-
         self.async_postgresql_engine = create_async_engine(
             self.dsn,
             echo=echo,
-            # DO: Remover comentários
-            # isolation_level=isolation_level,
-            # future=future,
-            # pool_pre_ping=pool_pre_ping,
-            # pool_size=pool_size,
-            # max_overflow=max_overflow,
-            # pool_recycle=pool_recycle,
-            # poolclass=AsyncAdaptedQueuePool,
-            # connect_args=connect_args,
         )
 
         self.async_postgresql_scoped_session_factory = async_scoped_session(
@@ -78,11 +50,6 @@ class Database:
         )
 
         logger.debug(f"Database connection established: {self.dsn}")
-        # DO: Remover comentários
-        # logger.debug(f"Configured pool size: {pool_size}")
-        # logger.debug(f"Configured max_overflow: {max_overflow}")
-        # logger.debug(f"Configured pool_recycle: {pool_recycle}")
-        # logger.debug(f"Configured connect_args: {connect_args}")
 
     async def initialize_postgres_db(self):
         async_engine = self.async_postgresql_engine
@@ -90,9 +57,6 @@ class Database:
 
         async with async_engine.begin() as connection:
             await connection.run_sync(metadata.create_all)
-
-        # DO: Remover comentários
-        # await async_engine.dispose()
 
     async def close_postgres_db(self):
         """
