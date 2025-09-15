@@ -5,6 +5,9 @@ from fastapi import APIRouter, Body, Depends
 from src.core.components.v1.user_book_annotations.application.use_cases.user_book_annotation_create_use_case import (
     UseBookAnnotationCreateUseCase,
 )
+from src.core.components.v1.user_book_annotations.application.use_cases.user_book_annotation_delete_use_case import (
+    UserBookAnnotationDeleteUseCase,
+)
 from src.core.components.v1.user_book_annotations.application.use_cases.user_book_annotation_get_annotations_use_case import (
     UserBookAnnotationGetAnnotationsUseCase,
 )
@@ -107,3 +110,23 @@ async def update_user_book_annotation(
     )
 
     return BaseResponse(message="User Book Annotation successfully updated", data=res)
+
+
+@user_book_annotations_router.delete(
+    "/{user_book_annotation_id}",
+    responses=get_responses(None),
+)
+@inject
+async def delete_user_book_annotation(
+    user_book_annotation_id: str,
+    user_book_annotation_delete_use_case: UserBookAnnotationDeleteUseCase = Depends(
+        Provide[
+            Container.components.user_book_annotation.user_book_annotation_delete_use_case
+        ]
+    ),
+):
+    await user_book_annotation_delete_use_case.execute(
+        id=user_book_annotation_id,
+    )
+
+    return BaseResponse(message="User Book Annotation successfully deleted")
