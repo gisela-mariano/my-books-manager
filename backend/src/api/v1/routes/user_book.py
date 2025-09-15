@@ -1,4 +1,4 @@
-from typing import Annotated
+from typing import Annotated, Optional
 
 from dependency_injector.wiring import Provide, inject
 from fastapi import APIRouter, Body, Depends, Request
@@ -63,7 +63,9 @@ async def get_user_books(
     return BaseResponse(message="Books successfully obtained", data=res)
 
 
-@user_book_router.get("/{user_book_id}", responses=get_responses(UserBookJoinBook))
+@user_book_router.get(
+    "/{user_book_id}", responses=get_responses(Optional[UserBookJoinBook])
+)
 @inject
 async def get_user_book_by_id(
     user_book_id: str,
