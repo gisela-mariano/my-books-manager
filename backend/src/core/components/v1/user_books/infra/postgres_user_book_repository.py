@@ -57,7 +57,7 @@ class PostgresUserBookRepository(PostgresBaseRepository, UserBookRepository):
                 )
 
                 query = (
-                    select(*user_books.columns, *alias_columns(books, "b"))
+                    select(*user_books.columns, *alias_columns(books, "book"))
                     .select_from(j)
                     .where(
                         user_books.c.id == id,
@@ -97,7 +97,8 @@ class PostgresUserBookRepository(PostgresBaseRepository, UserBookRepository):
                 )
 
                 query = (
-                    select(*user_books.columns, *alias_columns(books, "b"))
+                    # select(*user_books.columns, *alias_columns(books, "b"))
+                    select(*user_books.columns, *alias_columns(books, "book"))
                     .select_from(j)
                     .where(
                         user_books.columns.user_id == user_id,
@@ -136,7 +137,8 @@ class PostgresUserBookRepository(PostgresBaseRepository, UserBookRepository):
                 )
 
                 query = (
-                    select(*user_books.c, *alias_columns(books, "b"))
+                    # select(*user_books.c, *alias_columns(books, "b"))
+                    select(*user_books.c, *alias_columns(books, "book"))
                     .select_from(j)
                     .where(user_books.c.user_id == user_id)
                 )

@@ -48,6 +48,6 @@ class UserBookCreateUseCase:
 
             user_book = await self.repository.get_by_id(id=created_user_book.get("id"))
 
-            return join_result_to_dict(UserBookJoinBook, user_book, "b", "book")
+            return join_result_to_dict(UserBookJoinBook, user_book)
         else:
             return None

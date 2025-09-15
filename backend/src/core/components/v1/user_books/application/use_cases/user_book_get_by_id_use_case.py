@@ -16,4 +16,4 @@ class UserBookGetByIdUseCase:
     async def execute(self, id: str) -> dict[UserBookJoinBook]:
         user_book = await self.repository.get_by_id(id=id)
 
-        return join_result_to_dict(UserBookJoinBook, user_book, "b", "book")
+        return join_result_to_dict(UserBookJoinBook, user_book)

@@ -23,6 +23,5 @@ class UserBookGetUserBooksUseCase:
         )
 
         return [
-            join_result_to_dict(UserBookJoinBook, user_book, "b", "book")
-            for user_book in user_books
+            join_result_to_dict(UserBookJoinBook, user_book) for user_book in user_books
         ]

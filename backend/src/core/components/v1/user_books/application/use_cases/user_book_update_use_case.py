@@ -30,4 +30,4 @@ class UserBookUpdateUseCase:
             id=id, user_book=update_data, join_book=True
         )
 
-        return join_result_to_dict(UserBookJoinBook, updated_user_book, "b", "book")
+        return join_result_to_dict(UserBookJoinBook, updated_user_book)
