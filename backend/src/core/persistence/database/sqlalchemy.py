@@ -1,3 +1,3 @@
-from sqlalchemy import MetaData
+from src.core.persistence.database.config import Base
 
-metadata = MetaData()
+metadata = Base.metadata
