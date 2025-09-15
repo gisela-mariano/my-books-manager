@@ -8,6 +8,9 @@ from src.core.components.v1.user_book_annotations.application.use_cases.user_boo
 from src.core.components.v1.user_book_annotations.application.use_cases.user_book_annotation_get_by_id_user_case import (
     UserBookAnnotationGetByIdUseCase,
 )
+from src.core.components.v1.user_book_annotations.application.use_cases.user_book_annotation_update_use_case import (
+    UserBookAnnotationUpdateUseCase,
+)
 from src.core.components.v1.user_book_annotations.di.user_book_annotation_repository_di import (
     UserBookAnnotationRepositoryDI,
 )
@@ -50,4 +53,10 @@ class UserBookAnnotationDI(containers.DeclarativeContainer):
     user_book_annotation_get_annotations_use_case = providers.Factory(
         UserBookAnnotationGetAnnotationsUseCase,
         repository=repository,
+    )
+
+    user_book_annotation_update_use_case = providers.Factory(
+        UserBookAnnotationUpdateUseCase,
+        repository=repository,
+        service=service,
     )

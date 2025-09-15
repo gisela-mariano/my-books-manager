@@ -7,7 +7,7 @@ from src.core.utils.models.base import AllOptional, BaseConfig, BaseInDb, exclud
 
 class UserBookAnnotation(BaseConfig):
     user_book_id: str
-    note: str
+    note: str = Field(min_length=3)
 
 
 class UserBookAnnotationDb(UserBookAnnotation, BaseInDb):
@@ -15,7 +15,6 @@ class UserBookAnnotationDb(UserBookAnnotation, BaseInDb):
 
 
 class UserBookAnnotationCreate(UserBookAnnotation):
-    note: str = Field(min_length=3)
     pass
 
 
