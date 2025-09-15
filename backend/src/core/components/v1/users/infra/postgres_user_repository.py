@@ -8,11 +8,7 @@ from src.core.components.v1.users.infra.schemas.user import (
 )
 from src.core.persistence.database.postgres_database import Database as PostgresDatabase
 from src.core.repositories.postgres_base_repository import PostgresBaseRepository
-from src.core.utils.error_report import (
-    get_caller_info,
-    get_caller_name,
-    get_caller_payload,
-)
+from src.core.utils.error_report import get_exception_metadata
 from src.core.utils.exceptions.errors import DbError
 
 
@@ -27,14 +23,7 @@ class PostgresUserRepository(PostgresBaseRepository, UserRepository):
         except Exception as e:
             raise DbError(
                 message="Error when creating user",
-                metadata=[
-                    {
-                        "exception": str(e),
-                        "payload": get_caller_payload(),
-                        "where": get_caller_name(),
-                        "from": get_caller_info(),
-                    }
-                ],
+                metadata=[get_exception_metadata(e)],
             )
 
     async def get_by_id(self, id: str, verify_activity: bool = True) -> dict[UserDb]:
@@ -53,14 +42,7 @@ class PostgresUserRepository(PostgresBaseRepository, UserRepository):
         except Exception as e:
             raise DbError(
                 message="Error when getting user by id",
-                metadata=[
-                    {
-                        "exception": str(e),
-                        "payload": get_caller_payload(),
-                        "where": get_caller_name(),
-                        "from": get_caller_info(),
-                    }
-                ],
+                metadata=[get_exception_metadata(e)],
             )
 
     async def get_by_email(
@@ -81,14 +63,7 @@ class PostgresUserRepository(PostgresBaseRepository, UserRepository):
         except Exception as e:
             raise DbError(
                 message="Error when getting user by email",
-                metadata=[
-                    {
-                        "exception": str(e),
-                        "payload": get_caller_payload(),
-                        "where": get_caller_name(),
-                        "from": get_caller_info(),
-                    }
-                ],
+                metadata=[get_exception_metadata(e)],
             )
 
     async def get_by_username(
@@ -109,14 +84,7 @@ class PostgresUserRepository(PostgresBaseRepository, UserRepository):
         except Exception as e:
             raise DbError(
                 message="Error when getting user by username",
-                metadata=[
-                    {
-                        "exception": str(e),
-                        "payload": get_caller_payload(),
-                        "where": get_caller_name(),
-                        "from": get_caller_info(),
-                    }
-                ],
+                metadata=[get_exception_metadata(e)],
             )
 
     async def update(self, id: str, user: dict[UserUpdate]) -> dict[UserDb]:
@@ -125,14 +93,7 @@ class PostgresUserRepository(PostgresBaseRepository, UserRepository):
         except Exception as e:
             raise DbError(
                 message="Error when updating user",
-                metadata=[
-                    {
-                        "exception": str(e),
-                        "payload": get_caller_payload(),
-                        "where": get_caller_name(),
-                        "from": get_caller_info(),
-                    }
-                ],
+                metadata=[get_exception_metadata(e)],
             )
 
     async def deactivate(self, id: str) -> dict[UserDb]:
@@ -143,12 +104,5 @@ class PostgresUserRepository(PostgresBaseRepository, UserRepository):
         except Exception as e:
             raise DbError(
                 message="Error when deactivating user",
-                metadata=[
-                    {
-                        "exception": str(e),
-                        "payload": get_caller_payload(),
-                        "where": get_caller_name(),
-                        "from": get_caller_info(),
-                    }
-                ],
+                metadata=[get_exception_metadata(e)],
             )

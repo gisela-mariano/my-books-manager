@@ -4,11 +4,7 @@ from src.core.components.v1.books.infra.models.book import books
 from src.core.components.v1.books.infra.schemas.book import BookCreate, BookDb
 from src.core.persistence.database.postgres_database import Database as PostgresDatabase
 from src.core.repositories.postgres_base_repository import PostgresBaseRepository
-from src.core.utils.error_report import (
-    get_caller_info,
-    get_caller_name,
-    get_caller_payload,
-)
+from src.core.utils.error_report import get_exception_metadata
 from src.core.utils.exceptions.errors import DbError
 
 
@@ -23,14 +19,7 @@ class PostgresBookRepository(PostgresBaseRepository, BookRepository):
         except Exception as e:
             raise DbError(
                 message="Error when creating book",
-                metadata=[
-                    {
-                        "exception": str(e),
-                        "payload": get_caller_payload(),
-                        "where": get_caller_name(),
-                        "from": get_caller_info(),
-                    }
-                ],
+                metadata=[get_exception_metadata(e)],
             )
 
     async def get_by_isbn_or_title(
@@ -55,12 +44,5 @@ class PostgresBookRepository(PostgresBaseRepository, BookRepository):
         except Exception as e:
             raise DbError(
                 message="Error when getting book by isbn or title",
-                metadata=[
-                    {
-                        "exception": str(e),
-                        "payload": get_caller_payload(),
-                        "where": get_caller_name(),
-                        "from": get_caller_info(),
-                    }
-                ],
+                metadata=[get_exception_metadata(e)],
             )

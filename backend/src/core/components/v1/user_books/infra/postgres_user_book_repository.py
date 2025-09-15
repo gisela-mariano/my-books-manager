@@ -14,11 +14,7 @@ from src.core.components.v1.user_books.infra.schemas.user_book import (
 from src.core.persistence.database.postgres_database import Database as PostgresDatabase
 from src.core.repositories.postgres_base_repository import PostgresBaseRepository
 from src.core.utils.database.postgres import alias_columns
-from src.core.utils.error_report import (
-    get_caller_info,
-    get_caller_name,
-    get_caller_payload,
-)
+from src.core.utils.error_report import get_exception_metadata
 from src.core.utils.exceptions.errors import DbError
 
 
@@ -33,14 +29,7 @@ class PostgresUserBookRepository(PostgresBaseRepository, UserBookRepository):
         except Exception as e:
             raise DbError(
                 message="Error when creating user book",
-                metadata=[
-                    {
-                        "exception": str(e),
-                        "payload": get_caller_payload(),
-                        "where": get_caller_name(),
-                        "from": get_caller_info(),
-                    }
-                ],
+                metadata=[get_exception_metadata(e)],
             )
 
     async def get_by_id(
@@ -74,14 +63,7 @@ class PostgresUserBookRepository(PostgresBaseRepository, UserBookRepository):
         except Exception as e:
             raise DbError(
                 message="Error when getting user book by id",
-                metadata=[
-                    {
-                        "exception": str(e),
-                        "payload": get_caller_payload(),
-                        "where": get_caller_name(),
-                        "from": get_caller_info(),
-                    }
-                ],
+                metadata=[get_exception_metadata(e)],
             )
 
     async def get_by_user_id_and_book_id(
@@ -97,7 +79,6 @@ class PostgresUserBookRepository(PostgresBaseRepository, UserBookRepository):
                 )
 
                 query = (
-                    # select(*user_books.columns, *alias_columns(books, "b"))
                     select(*user_books.columns, *alias_columns(books, "book"))
                     .select_from(j)
                     .where(
@@ -117,14 +98,7 @@ class PostgresUserBookRepository(PostgresBaseRepository, UserBookRepository):
         except Exception as e:
             raise DbError(
                 message="Error when getting user book by user id and book id",
-                metadata=[
-                    {
-                        "exception": str(e),
-                        "payload": get_caller_payload(),
-                        "where": get_caller_name(),
-                        "from": get_caller_info(),
-                    }
-                ],
+                metadata=[get_exception_metadata(e)],
             )
 
     async def get_user_books_by_user_id(
@@ -137,7 +111,6 @@ class PostgresUserBookRepository(PostgresBaseRepository, UserBookRepository):
                 )
 
                 query = (
-                    # select(*user_books.c, *alias_columns(books, "b"))
                     select(*user_books.c, *alias_columns(books, "book"))
                     .select_from(j)
                     .where(user_books.c.user_id == user_id)
@@ -153,14 +126,7 @@ class PostgresUserBookRepository(PostgresBaseRepository, UserBookRepository):
         except Exception as e:
             raise DbError(
                 message="Error when getting user books by user id",
-                metadata=[
-                    {
-                        "exception": str(e),
-                        "payload": get_caller_payload(),
-                        "where": get_caller_name(),
-                        "from": get_caller_info(),
-                    }
-                ],
+                metadata=[get_exception_metadata(e)],
             )
 
     async def update(
@@ -176,14 +142,7 @@ class PostgresUserBookRepository(PostgresBaseRepository, UserBookRepository):
         except Exception as e:
             raise DbError(
                 message="Error when updating user book",
-                metadata=[
-                    {
-                        "exception": str(e),
-                        "payload": get_caller_payload(),
-                        "where": get_caller_name(),
-                        "from": get_caller_info(),
-                    }
-                ],
+                metadata=[get_exception_metadata(e)],
             )
 
     async def delete(self, id: str) -> bool:
@@ -194,12 +153,5 @@ class PostgresUserBookRepository(PostgresBaseRepository, UserBookRepository):
         except Exception as e:
             raise DbError(
                 message="Error when deleting user book",
-                metadata=[
-                    {
-                        "exception": str(e),
-                        "payload": get_caller_payload(),
-                        "where": get_caller_name(),
-                        "from": get_caller_info(),
-                    }
-                ],
+                metadata=[get_exception_metadata(e)],
             )
