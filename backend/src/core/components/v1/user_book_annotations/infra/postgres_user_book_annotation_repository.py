@@ -95,9 +95,20 @@ class PostgresUserBookAnnotationRepository(
                     full=True,
                 )
 
+                j_book = join(
+                    j,
+                    books,
+                    user_books.columns.book_id == books.columns.id,
+                    full=True,
+                )
+
                 query = (
-                    select(*user_book_annotations.c, *alias_columns(user_books, "ub"))
-                    .select_from(j)
+                    select(
+                        *user_book_annotations.c,
+                        *alias_columns(user_books, "user_book"),
+                        *alias_columns(books, "user_book__book")
+                    )
+                    .select_from(j_book)
                     .where(user_book_annotations.c.user_book_id == user_book_id)
                 )
             else:

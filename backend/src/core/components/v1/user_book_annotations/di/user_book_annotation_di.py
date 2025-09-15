@@ -2,6 +2,9 @@ from dependency_injector import containers, providers
 from src.core.components.v1.user_book_annotations.application.use_cases.user_book_annotation_create_use_case import (
     UseBookAnnotationCreateUseCase,
 )
+from src.core.components.v1.user_book_annotations.application.use_cases.user_book_annotation_get_annotations_use_case import (
+    UserBookAnnotationGetAnnotationsUseCase,
+)
 from src.core.components.v1.user_book_annotations.application.use_cases.user_book_annotation_get_by_id_user_case import (
     UserBookAnnotationGetByIdUseCase,
 )
@@ -41,5 +44,10 @@ class UserBookAnnotationDI(containers.DeclarativeContainer):
 
     user_book_annotation_get_by_id_user_case = providers.Factory(
         UserBookAnnotationGetByIdUseCase,
+        repository=repository,
+    )
+
+    user_book_annotation_get_annotations_use_case = providers.Factory(
+        UserBookAnnotationGetAnnotationsUseCase,
         repository=repository,
     )
