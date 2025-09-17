@@ -1,0 +1,60 @@
+html {
+  box-sizing: border-box;
+  overflow: auto;
+}
+
+body,
+html {
+  scroll-behavior: smooth;
+}
+
+.p-ink-active {
+  animation: none;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+*:focus {
+  box-shadow: none !important;
+}
+
+p,
+ul,
+li,
+body {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+section,
+article {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  vertical-align: baseline;
+  font: inherit;
+}
+
+.p-disabled,
+.p-component:disabled {
+  opacity: 1;
+}
+
+.text-ellipsis {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}

@@ -1,0 +1,17 @@
+body {
+  font-family: var(--ds-type-font-family);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  text-size-adjust: none;
+  font-size: 100%;
+  text-overflow: ellipsis;
+  line-height: initial;
+}
+
+.base-header__title {
+  font-size: prem(16);
+  font-weight: bold;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: initial;
+}

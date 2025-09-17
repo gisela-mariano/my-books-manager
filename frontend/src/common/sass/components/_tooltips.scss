@@ -1,0 +1,103 @@
+@use "../abstracts/tokens" as *;
+
+@include light-tokens((tooltip-color-background: var(--p-gray-900),
+    tooltip-color-text: var(--p-slate-50)));
+
+@include dark-tokens((tooltip-color-background: var(--p-gray-900),
+    tooltip-color-text: var(--p-slate-50)));
+
+
+.p-tooltip {
+  z-index: 30000 !important;
+}
+
+.rt-center-tooltip .p-tooltip-text,
+.accounting-tooltip .p-tooltip-text {
+  text-align: center;
+}
+
+.rt-center-tooltip .p-tooltip-text,
+.accounting-tooltip .p-tooltip-text,
+.default-tooltip .p-tooltip-text {
+  font-size: prem(12);
+  background-color: var(--tooltip-color-background);
+  color: var(--tooltip-color-text);
+  border: none;
+}
+
+.default-tooltip.p-tooltip-top .p-tooltip-arrow {
+  border-top-color: var(--tooltip-color-background);
+  border-width: 5px 5px 0;
+
+  &:before {
+    content: "";
+    z-index: -1;
+    border: 5px solid transparent;
+    position: absolute;
+    width: 0;
+    height: 0;
+    bottom: 2px;
+    left: 50%;
+    margin: -3.5px;
+    margin-left: -6.3px;
+    border-width: 2.3em 0.4em 0px;
+    border-top: 7px solid;
+  }
+}
+
+.default-tooltip.p-tooltip.p-tooltip-right .p-tooltip-arrow {
+  border-right-color: var(--tooltip-color-background);
+  border-width: 5px 5px 5px 0;
+
+  &:before {
+    content: "";
+    z-index: -1;
+    border: 5px solid transparent;
+    position: absolute;
+    width: 0;
+    height: 0;
+    top: 50%;
+    left: -5px;
+    margin: -6.3px;
+    margin-top: -3.5px;
+    border-width: 0.4em 0px;
+  }
+}
+
+.default-tooltip.p-tooltip.p-tooltip-left .p-tooltip-arrow {
+  border-left-color: var(--tooltip-color-background);
+  border-width: 5px 0 5px 5px;
+
+  &:before {
+    content: "";
+    z-index: -1;
+    border: 5px solid transparent;
+    position: absolute;
+    width: 0;
+    height: 0;
+    top: 50%;
+    right: -5px;
+    margin: -6.3px;
+    margin-top: -3.5px;
+    border-width: 0.4em 2.3em 0.4em 0px;
+    border-left: 7px solid;
+  }
+}
+
+.default-tooltip.p-tooltip.p-tooltip-bottom .p-tooltip-arrow {
+  border-bottom-color: var(--tooltip-color-background);
+  border-width: 0 5px 5px;
+
+  &:before {
+    content: "";
+    z-index: -1;
+    border: 5px solid transparent;
+    position: absolute;
+    width: 0;
+    height: 0;
+    top: -7px;
+    left: 50%;
+    margin-left: -6.3px;
+    border-bottom: 7px solid;
+  }
+}

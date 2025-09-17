@@ -1,0 +1,45 @@
+@mixin transition($transition-property, $transition-time, $method) {
+  -webkit-transition: $transition-property $transition-time $method;
+  -moz-transition: $transition-property $transition-time $method;
+  -ms-transition: $transition-property $transition-time $method;
+  -o-transition: $transition-property $transition-time $method;
+  transition: $transition-property $transition-time $method;
+}
+
+@mixin circle($size) {
+  width: $size;
+  height: $size;
+  border-radius: calc($size / 2);
+}
+
+@mixin border-radius($radius) {
+  border-radius: $radius+px;
+  -webkit-border-radius: $radius+px;
+  -moz-border-radius: $radius+px;
+}
+
+@mixin border-radii($topLeft, $topRight, $bottomRight,
+  $bottomLeft) {
+  border-top-left-radius: #{$topLeft}+px;
+  border-top-right-radius: #{$topRight}+px;
+  border-bottom-right-radius: #{$bottomRight}+px;
+  border-bottom-left-radius: #{$bottomLeft}+px;
+  -webkit-border-top-left-radius: #{$topLeft}+px;
+  -webkit-border-top-right-radius: #{$topRight}+px;
+  -webkit-border-bottom-right-radius: #{$bottomRight}+px;
+  -webkit-border-bottom-left-radius: #{$bottomLeft}+px;
+  -moz-border-radius-topleft: #{$topLeft}+px;
+  -moz-border-radius-topright: #{$topRight}+px;
+  -moz-border-radius-bottomright: #{$bottomRight}+px;
+  -moz-border-radius-bottomleft: #{$bottomLeft}+px;
+}
+
+@mixin square($size) {
+  width: #{$size}+px;
+  height: #{$size}+px;
+}
+
+@mixin box-shadow($offsetX, $offsetY, $blur, $spread, $color) {
+  box-shadow: #{$offsetX}px #{$offsetY}px #{$blur}px #{$spread}px #{$color};
+  -webkit-box-shadow: #{$offsetX}px #{$offsetY}px #{$blur}px #{$spread}px #{$color};
+}

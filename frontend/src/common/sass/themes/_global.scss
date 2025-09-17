@@ -1,0 +1,17 @@
+@use "../abstracts/tokens" as *;
+
+
+@include light-tokens((ds-secondary-message-color: var(--p-gray-500)));
+@include dark-tokens((ds-secondary-message-color: var(--p-gray-500)));
+
+
+body,
+html {
+  max-width: 100%;
+  width: 100vw;
+  height: 100vh;
+}
+
+.p-component {
+  font-family: var(--ds-type-font-family);
+}

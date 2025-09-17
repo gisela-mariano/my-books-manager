@@ -1,26 +1,37 @@
-import "@/assets/main.css"
+import { createPinia } from "pinia";
+import PrimeVue from "primevue/config";
+import Skeleton from "primevue/skeleton";
+import Toast from "primevue/toast";
+import ToastService from "primevue/toastservice";
+import Tooltip from "primevue/tooltip";
+import { createApp } from "vue";
 
-import { createPinia } from "pinia"
-import PrimeVue from "primevue/config"
-import Skeleton from "primevue/skeleton"
-import Toast from "primevue/toast"
-import ToastService from "primevue/toastservice"
-import Tooltip from "primevue/tooltip"
-import { createApp } from "vue"
+import App from "@/App.vue";
+import router from "@/router";
+import { i18n } from "@core/i18n";
+import vCustomTooltip from "@global/directives/v-custom-tooltip";
+import Aura from "@primeuix/themes/aura";
 
-import App from "@/App.vue"
-import router from "@/router"
+const app = createApp(App);
 
-const app = createApp(App)
+app.use(createPinia());
+app.use(router);
+app.use(PrimeVue, {
+  theme: {
+    preset: Aura,
+    options: {
+      prefix: "p",
+      darkModeSelector: ".theme-dark",
+    },
+  },
+});
+app.use(ToastService);
+app.use(i18n);
 
-app.use(createPinia())
-app.use(router)
-app.use(PrimeVue)
-app.use(ToastService)
+app.component("Toast", Toast);
+app.component("Skeleton", Skeleton);
 
-app.component("Toast", Toast)
+app.directive("tooltip", Tooltip);
+app.directive("custom-tooltip", vCustomTooltip);
 
-app.directive("tooltip", Tooltip)
-app.component("Skeleton", Skeleton)
-
-app.mount("#app")
+app.mount("#app");

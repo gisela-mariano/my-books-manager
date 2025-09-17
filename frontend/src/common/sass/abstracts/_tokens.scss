@@ -1,0 +1,34 @@
+// -------------------------------------- Component tokens mixins
+@mixin component-light-tokens($colors) {
+  :global([components-mode="light"]) {
+    @each $property, $value in $colors {
+      --#{$property}: #{$value};
+    }
+  }
+}
+
+@mixin component-dark-tokens($colors) {
+  :global([components-mode="dark"]) {
+    @each $property, $value in $colors {
+      --#{$property}: #{$value};
+    }
+  }
+}
+
+// -------------------------------------- Global tokens mixins
+
+@mixin light-tokens($colors) {
+  [components-mode="light"] {
+    @each $property, $value in $colors {
+      --#{$property}: #{$value};
+    }
+  }
+}
+
+@mixin dark-tokens($colors) {
+  [components-mode="dark"] {
+    @each $property, $value in $colors {
+      --#{$property}: #{$value};
+    }
+  }
+}
