@@ -1,0 +1,12 @@
+{
+	"global": {
+		"components": {
+			"themeSwitch": {
+				"switchLabel": {
+					"light": "Switch to light mode",
+					"dark": "Switch to dark mode"
+				}
+			}
+		}
+	}
+}

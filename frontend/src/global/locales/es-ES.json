@@ -1,0 +1,12 @@
+{
+	"global": {
+		"components": {
+			"themeSwitch": {
+				"switchLabel": {
+					"light": "Cambiar al modo claro",
+					"dark": "Cambiar al modo oscuro"
+				}
+			}
+		}
+	}
+}
