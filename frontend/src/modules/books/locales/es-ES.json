@@ -1,0 +1,14 @@
+{
+	"books": {
+		"components": {
+			"cardBook": {
+				"noImage": {
+					"message": "Imagen no encontrada"
+				},
+				"noAuthor": {
+					"message": "Autor no encontrado"
+				}
+			}
+		}
+	}
+}
