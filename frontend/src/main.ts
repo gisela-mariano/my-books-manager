@@ -1,5 +1,6 @@
 import { createPinia } from "pinia";
 import PrimeVue from "primevue/config";
+import DataView from "primevue/dataview";
 import Skeleton from "primevue/skeleton";
 import Toast from "primevue/toast";
 import ToastService from "primevue/toastservice";
@@ -22,6 +23,10 @@ app.use(PrimeVue, {
     options: {
       prefix: "p",
       darkModeSelector: ".theme-dark",
+      cssLayer: {
+        name: "primevue",
+        order: "theme, base, primevue",
+      },
     },
   },
 });
@@ -30,6 +35,7 @@ app.use(i18n);
 
 app.component("Toast", Toast);
 app.component("Skeleton", Skeleton);
+app.component("DataView", DataView);
 
 app.directive("tooltip", Tooltip);
 app.directive("custom-tooltip", vCustomTooltip);
