@@ -9,6 +9,14 @@
 					"message": "Autor no encontrado"
 				}
 			}
+		},
+		"booksDataView": {
+			"header": {
+				"buttons": {
+					"grid": "Diseño de cuadrícula",
+					"list": "Diseño de lista"
+				}
+			}
 		}
 	}
 }

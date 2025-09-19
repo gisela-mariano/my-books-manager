@@ -1,5 +1,5 @@
 <template>
-  <div class="card-book">
+  <div class="card-book" :class="`layout-${layout}`">
     <section class="card-book__image-section">
       <div
         class="card-book__image-section__image"
@@ -39,6 +39,7 @@
 
 <script setup lang="ts">
 import { I18nKeys } from "@/common/types";
+import { DataViewLayout } from "@global/types";
 import { BookCardProps } from "@modules/books/types";
 import { computed, PropType } from "vue";
 import { useI18n } from "vue-i18n";
@@ -47,6 +48,10 @@ const props = defineProps({
   book: {
     type: Object as PropType<BookCardProps>,
     required: true,
+  },
+  layout: {
+    type: String as PropType<DataViewLayout>,
+    default: DataViewLayout.GRID,
   },
 });
 
@@ -63,17 +68,11 @@ const authors = computed(() => {
 $card-border-radius: 10;
 
 .card-book {
-  height: fit-content;
-  width: fit-content;
-  max-width: 180px;
   padding: prem(16);
   box-sizing: border-box;
   cursor: pointer;
 
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
   gap: prem(12);
 
   @include box-shadow(0, 8, 28, -12, #00000029);
@@ -89,14 +88,13 @@ $card-border-radius: 10;
   }
 
   &__image-section {
-    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
 
     &__image,
     &__container-no-image {
-      width: 100%;
+      width: 148px;
       height: 230px;
 
       @include border-radius($card-border-radius);
@@ -127,7 +125,7 @@ $card-border-radius: 10;
     }
   }
 
-  &__footer {
+  .card-book__footer {
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -143,5 +141,20 @@ $card-border-radius: 10;
       font-size: 0.9rem;
     }
   }
+}
+
+.card-book.layout-grid {
+  height: fit-content;
+  width: 180px;
+
+  flex-direction: column;
+  align-items: center;
+}
+
+.card-book.layout-list {
+  height: 250px;
+  width: 100%;
+
+  transform-origin: center left;
 }
 </style>

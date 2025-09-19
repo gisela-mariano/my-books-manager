@@ -6,6 +6,13 @@
 					"light": "Cambiar al modo claro",
 					"dark": "Cambiar al modo oscuro"
 				}
+			},
+			"dataView": {
+				"paginator": {
+					"of": "de",
+					"showingFrom": "Mostrando",
+					"record": "sin registro | {n} registro | {n} registros"
+				}
 			}
 		}
 	}

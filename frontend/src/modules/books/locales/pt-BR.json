@@ -8,6 +8,14 @@
 				"noAuthor": {
 					"message": "Autor não encontrado"
 				}
+			},
+			"booksDataView": {
+				"header": {
+					"buttons": {
+						"grid": "Layout em grade",
+						"list": "Layout em lista"
+					}
+				}
 			}
 		}
 	}

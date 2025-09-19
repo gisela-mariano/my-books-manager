@@ -6,6 +6,13 @@
 					"light": "Switch to light mode",
 					"dark": "Switch to dark mode"
 				}
+			},
+			"dataView": {
+				"paginator": {
+					"of": "of",
+					"showingFrom": "Showing",
+					"record": "no record | {n} record | {n} records"
+				}
 			}
 		}
 	}

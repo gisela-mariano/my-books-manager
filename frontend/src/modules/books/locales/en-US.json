@@ -9,6 +9,14 @@
 					"message": "Author not found"
 				}
 			}
+		},
+		"booksDataView": {
+			"header": {
+				"buttons": {
+					"grid": "Grid layout",
+					"list": "List layout"
+				}
+			}
 		}
 	}
 }
